@@ -1,6 +1,6 @@
 package tests;
 
-import common.Utils;
+import main.Utils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

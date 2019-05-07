@@ -1,4 +1,4 @@
-package common;
+package main;
 
 public class Utils {
 

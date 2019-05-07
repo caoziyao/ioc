@@ -1,6 +1,4 @@
-package server;
-
-import common.Utils;
+package main;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -59,7 +57,6 @@ public class HttpServer {
 
         DataInputStream in = new DataInputStream(server.getInputStream());
 
-//                System.out.println(in.readUTF());
         int count = in.available();
         while (count == 0) {
             count = in.available();
