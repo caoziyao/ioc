@@ -21,4 +21,21 @@ public class MyFileReader {
 
         return "";
     }
+
+    public static byte[] readFileByByte(String fileName) {
+        try {
+            File file = new File(fileName);
+            FileInputStream stream = new FileInputStream(file);
+
+            int len = (int) file.length();
+            byte[] buf = new byte[len];
+            stream.read(buf);
+            stream.close();
+            return buf;
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
