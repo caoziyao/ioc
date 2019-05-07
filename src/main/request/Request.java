@@ -6,11 +6,11 @@ public class Request {
 
     private RequestParse requestParse;
 
-    private String method;
-    private String path;
-    private String protocol;
-    private Integer port;
-    private String host;
+    public  String method;
+    public String path;
+    public String protocol;
+    public Integer port;
+    public String host;
 
     private HashMap<String, String> headers;
     private String body;
@@ -36,6 +36,11 @@ public class Request {
 
     public void setHeaders(HashMap<String, String> headers) {
         this.headers = headers;
+    }
+
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
 

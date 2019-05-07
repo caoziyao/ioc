@@ -67,6 +67,6 @@ public class RequestParse {
     }
 
     private void parseBody(String body) {
-
+        this.req.setBody(body);
     }
 }
