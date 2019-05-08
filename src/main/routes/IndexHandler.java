@@ -1,6 +1,7 @@
 package main.routes;
 
 import main.MyFileReader;
+import main.TestAnnotation;
 import main.Utils;
 import main.server.Request;
 import main.server.Response;
@@ -8,6 +9,8 @@ import main.server.Response;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
+
 
 public class IndexHandler implements BaseHandler {
 
@@ -21,6 +24,10 @@ public class IndexHandler implements BaseHandler {
 
         response.setContentType("text/html");
         response.write(str);
+    }
 
+    @TestAnnotation
+    public void test() {
+        System.out.println("test hhhh ");
     }
 }

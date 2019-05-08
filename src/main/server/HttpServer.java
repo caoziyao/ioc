@@ -28,15 +28,11 @@ public class HttpServer {
     }
 
 
-    /**
-     *
-     * */
     public ServerSocket openSocket(Integer port) throws IOException {
         ServerSocket socket = new ServerSocket(port);
         this.socket = socket;
 
         return socket;
-
     }
 
 
@@ -49,7 +45,6 @@ public class HttpServer {
             e.printStackTrace();
             return null;
         }
-
     }
 
 
@@ -58,9 +53,6 @@ public class HttpServer {
     }
 
 
-    /**
-     * read
-     */
     public byte[] read() throws IOException {
 
         Socket server = this.server;

@@ -9,9 +9,9 @@ public class MyFileReader {
         try {
             String all = "";
             BufferedReader in = new BufferedReader(new FileReader(fileName));
+
             String str;
             while ((str = in.readLine()) != null) {
-
                 all += str;
             }
 
@@ -34,6 +34,7 @@ public class MyFileReader {
             byte[] buf = new byte[len];
             stream.read(buf);
             stream.close();
+
             return buf;
         } catch (IOException e) {
 
