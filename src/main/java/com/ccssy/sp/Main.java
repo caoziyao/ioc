@@ -1,56 +1,27 @@
 package com.ccssy.sp;
 
 import com.ccssy.sp.core.JsonApplicationContext;
-import com.ccssy.sp.server.HttpServer;
-import com.ccssy.sp.server.Request;
-import com.ccssy.sp.routes.BaseHandler;
-import com.ccssy.sp.routes.ImageHandler;
-import com.ccssy.sp.routes.IndexHandler;
-import com.ccssy.sp.routes.NotFoundHandler;
-import com.ccssy.sp.server.Response;
+import com.ccssy.sp.routes.*;
+import com.ccssy.sp.server.*;
+import com.ccssy.sp.server.control.HandlerExecutionChain;
+import com.ccssy.sp.server.control.HandlerMapping;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
+
+/**
+ * websocket
+ * */
 
 public class Main {
 
 
-    public static String render() {
-        MyFileReader reader = new MyFileReader();
-        String str = reader.readFileByChars("src/resources/templates/index.html");
-        return str;
-    }
-
-
-    private static HashMap<String, BaseHandler> registerRoutes() {
-        HashMap<String, BaseHandler> map = new HashMap<String, BaseHandler>();
-
-        map.put("/", new IndexHandler());
-        map.put("/static/all.gif", new ImageHandler());
-
-        return map;
-    }
-
-
-    public static BaseHandler getRoute(HashMap<String, BaseHandler> routes, String path) {
-
-        BaseHandler route = routes.get(path);
-        if (route == null) {
-            route = new NotFoundHandler();
-        }
-
-        return route;
-    }
-
-
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello World!");
 
         HttpServer server = new HttpServer(8890);
 
-        HashMap<String, BaseHandler> routes = registerRoutes();
+        HandlerMapping hm = new HandlerMapping();
 
         JsonApplicationContext applicationContext = new JsonApplicationContext("application.json");
         applicationContext.init();
@@ -71,9 +42,26 @@ public class Main {
                 Request request = new Request(req);
                 Response response = new Response(socket);
 
-                BaseHandler route = getRoute(routes, request.path);
+                // mvc
+                HandlerExecutionChain he = hm.getHandlerExecutionChain(request.path);
+                HandlerAdapter ha = he.getHandler();
 
-                route.render(request, response);
+                // 304 Not Modified缓存支持
+
+                // 执行处理器相关的拦截器的预处理（HandlerInterceptor.preHandle）
+                he.applyPreHandle(request, response);
+
+                ModelAndView mv = ha.handle(request, response);
+                byte[] bytes = DispatcherServlet.viewFromResolver(mv);
+
+                // 执行处理器相关的拦截器的后处理（HandlerInterceptor.postHandle）
+                he.applyPostHandle(request, response);
+                DispatcherServlet.render(response, bytes);
+
+                // 执行处理器相关的拦截器的完成后处理（HandlerInterceptor.afterCompletion）
+                he.triggerAfterCompletion(request, response);
+
+                // close
                 server.close();
             } catch (SocketTimeoutException s) {
                 System.out.println("Socket timed out!");

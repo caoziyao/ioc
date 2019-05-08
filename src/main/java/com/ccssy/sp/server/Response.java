@@ -9,7 +9,7 @@ import java.net.Socket;
 public class Response {
 
     private Socket server;
-    private String contentType = "text/html";
+    public String contentType = "text/html";
 
 
     public Response(Socket server) {

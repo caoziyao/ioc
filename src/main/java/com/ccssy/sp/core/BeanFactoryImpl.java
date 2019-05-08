@@ -77,8 +77,6 @@ public class BeanFactoryImpl implements BeanFactory {
         if (fields != null && fields.length > 0) {
             for (Field field : fields) {
                 String beanName = field.getName();
-//                String beanName = field.get();
-//                beanName = StringUtils.uncapitalize(beanName);
                 beanName = beanName.toLowerCase();
                 if (beanNameSet.contains(field.getName())) {
                     Object fieldBean = getBean(beanName);

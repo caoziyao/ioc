@@ -1,7 +1,7 @@
 package com.ccssy.sp.test;
 
 import com.ccssy.sp.TestAnnotation;
-import com.ccssy.sp.routes.IndexHandler;
+import com.ccssy.sp.routes.IndexController;
 
 import java.lang.reflect.Method;
 
@@ -9,7 +9,7 @@ public class TestTool {
 
 
     public static void main(String[] args) {
-        IndexHandler testobj = new IndexHandler();
+        IndexController testobj = new IndexController();
 
         Class clazz = testobj.getClass();
 
