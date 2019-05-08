@@ -2,6 +2,8 @@ package main.routes;
 
 import main.MyFileReader;
 import main.Utils;
+import main.server.Request;
+import main.server.Response;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -9,17 +11,14 @@ import java.net.Socket;
 
 public class ImageHandler implements BaseHandler {
 
-    public byte[] render() {
+
+    public void render(Request request, Response response) {
         MyFileReader reader = new MyFileReader();
         byte[] str = reader.readFileByByte("src/resources/static/dog2.jpg");
-        return str;
+
+        response.setContentType("image/gif");
+
+        response.write(str);
     }
 
-    public void write(Socket server, byte[] data) throws IOException {
-        DataOutputStream out = new DataOutputStream(server.getOutputStream());
-        byte[] header = Utils.strToByteArray("HTTP/1.1 200 OK\r\nContent-Type: image/gif\r\n\r\n");
-        byte[] rep = Utils.byteMerger(header, data);
-
-        out.write(rep);
-    }
 }

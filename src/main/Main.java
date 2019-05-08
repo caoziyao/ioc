@@ -1,10 +1,12 @@
 package main;
 
-import main.request.Request;
+import main.server.HttpServer;
+import main.server.Request;
 import main.routes.BaseHandler;
 import main.routes.ImageHandler;
 import main.routes.IndexHandler;
 import main.routes.NotFoundHandler;
+import main.server.Response;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -28,12 +30,8 @@ public class Main {
         map.put("/static/all.gif", new ImageHandler());
 
         return map;
-
     }
 
-//    private static void init() {
-//        registerRoutes();
-//    }
 
     public static BaseHandler getRoute(HashMap<String, BaseHandler> routes, String path) {
 
@@ -43,8 +41,8 @@ public class Main {
         }
 
         return route;
-
     }
+
 
     public static void main(String[] args) throws IOException {
         System.out.println("Hello World!");
@@ -60,14 +58,12 @@ public class Main {
                 byte[] req = server.read();
 
                 Request request = new Request(req);
+                Response response = new Response(socket);
 
                 BaseHandler route = getRoute(routes, request.path);
 
-                byte[] data = route.render();
-                route.write(socket, data);
+                route.render(request, response);
                 server.close();
-
-
             } catch (SocketTimeoutException s) {
                 System.out.println("Socket timed out!");
                 break;

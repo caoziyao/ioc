@@ -1,4 +1,4 @@
-package main.request;
+package main.server;
 
 import java.util.HashMap;
 
@@ -6,7 +6,7 @@ public class Request {
 
     private RequestParse requestParse;
 
-    public  String method;
+    public String method;
     public String path;
     public String protocol;
     public Integer port;
@@ -26,13 +26,16 @@ public class Request {
         this.method = method;
     }
 
+
     public void setPath(String path) {
         this.path = path;
     }
 
+
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
+
 
     public void setHeaders(HashMap<String, String> headers) {
         this.headers = headers;

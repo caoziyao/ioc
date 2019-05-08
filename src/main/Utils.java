@@ -2,6 +2,7 @@ package main;
 
 public class Utils {
 
+
     public static byte[] strToByteArray(String str) {
         if (str == null) {
             return null;
@@ -10,6 +11,7 @@ public class Utils {
         return byteArray;
     }
 
+
     public static String byteArrayToStr(byte[] byteArray) {
         if (byteArray == null) {
             return null;
@@ -17,6 +19,7 @@ public class Utils {
         String str = new String(byteArray);
         return str;
     }
+
 
     public static byte[] byteMerger(byte[] byte_1, byte[] byte_2) {
         byte[] byte_3 = new byte[byte_1.length + byte_2.length];

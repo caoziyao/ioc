@@ -1,4 +1,6 @@
-package main;
+package main.server;
+
+import main.Utils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,6 +16,7 @@ public class HttpServer {
     private ServerSocket socket;
     private Socket server;
 
+
     public HttpServer(Integer port) {
         this.port = port;
 
@@ -23,6 +26,7 @@ public class HttpServer {
             e.printStackTrace();
         }
     }
+
 
     /**
      *
@@ -34,6 +38,7 @@ public class HttpServer {
         return socket;
 
     }
+
 
     public Socket accept() {
 
@@ -47,9 +52,11 @@ public class HttpServer {
 
     }
 
+
     public void close() throws IOException {
         this.server.close();
     }
+
 
     /**
      * read
@@ -73,34 +80,4 @@ public class HttpServer {
         return b;
     }
 
-//    /**
-//     * write
-//     */
-//    public void write(String data) throws IOException {
-//        Socket server = this.server;
-//        DataOutputStream out = new DataOutputStream(server.getOutputStream());
-//        String strRsp = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n" + data;
-//        byte[] rep = Utils.strToByteArray(strRsp);
-//        out.write(rep);
-//    }
-//
-//
-//    public void writeStatic(byte[] data) throws IOException {
-//        Socket server = this.server;
-//        DataOutputStream out = new DataOutputStream(server.getOutputStream());
-////        byte[] header = Utils.strToByteArray("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n");
-//        byte[] header = Utils.strToByteArray("HTTP/1.1 200 OK\r\nContent-Type: image/gif\r\n\r\n");
-//        byte[] rep = Utils.byteMerger(header, data);
-//
-//        out.write(rep);
-//    }
-//
-//    public void writeTemplate(byte[] data) throws IOException {
-//        Socket server = this.server;
-//        DataOutputStream out = new DataOutputStream(server.getOutputStream());
-//        byte[] header = Utils.strToByteArray("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n");
-//        byte[] rep = Utils.byteMerger(header, data);
-//
-//        out.write(rep);
-//    }
 }

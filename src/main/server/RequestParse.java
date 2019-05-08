@@ -1,4 +1,4 @@
-package main.request;
+package main.server;
 
 import main.Utils;
 
@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class RequestParse {
 
     private Request req;
+
 
     public void parse(byte[] request, Request req) {
         System.out.println("parse");
@@ -26,11 +27,12 @@ public class RequestParse {
 
         // body
         int len = lines.length;
-        if (len > row+1) {
-            parseBody(lines[len-1]);
+        if (len > row + 1) {
+            parseBody(lines[len - 1]);
         }
 
     }
+
 
     private int rowOfHeaders(String[] lines) {
 
@@ -46,6 +48,7 @@ public class RequestParse {
 
         return row;
     }
+
 
     private void parseFirstLine(String line) {
         String[] ws = line.split(" ");
@@ -65,6 +68,7 @@ public class RequestParse {
 
         this.req.setHeaders(map);
     }
+
 
     private void parseBody(String body) {
         this.req.setBody(body);

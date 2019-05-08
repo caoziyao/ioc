@@ -3,6 +3,8 @@ package main;
 import java.io.*;
 
 public class MyFileReader {
+
+
     public static String readFileByChars(String fileName) {
         try {
             String all = "";
@@ -21,6 +23,7 @@ public class MyFileReader {
 
         return "";
     }
+
 
     public static byte[] readFileByByte(String fileName) {
         try {
