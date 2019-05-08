@@ -1,10 +1,7 @@
-package main.routes;
+package com.ccssy.sp.routes;
 
-import main.server.Request;
-import main.server.Response;
-
-import java.io.IOException;
-import java.net.Socket;
+import com.ccssy.sp.server.Request;
+import com.ccssy.sp.server.Response;
 
 public interface BaseHandler {
 

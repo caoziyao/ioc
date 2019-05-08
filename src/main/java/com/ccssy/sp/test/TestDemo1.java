@@ -1,6 +1,6 @@
-package tests;
+package com.ccssy.sp.test;
 
-import main.Utils;
+import com.ccssy.sp.utils.Utils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

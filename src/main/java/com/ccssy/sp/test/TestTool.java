@@ -1,7 +1,7 @@
-package tests;
+package com.ccssy.sp.test;
 
-import main.TestAnnotation;
-import main.routes.IndexHandler;
+import com.ccssy.sp.TestAnnotation;
+import com.ccssy.sp.routes.IndexHandler;
 
 import java.lang.reflect.Method;
 

@@ -1,12 +1,13 @@
-package main;
+package com.ccssy.sp;
 
-import main.server.HttpServer;
-import main.server.Request;
-import main.routes.BaseHandler;
-import main.routes.ImageHandler;
-import main.routes.IndexHandler;
-import main.routes.NotFoundHandler;
-import main.server.Response;
+import com.ccssy.sp.core.JsonApplicationContext;
+import com.ccssy.sp.server.HttpServer;
+import com.ccssy.sp.server.Request;
+import com.ccssy.sp.routes.BaseHandler;
+import com.ccssy.sp.routes.ImageHandler;
+import com.ccssy.sp.routes.IndexHandler;
+import com.ccssy.sp.routes.NotFoundHandler;
+import com.ccssy.sp.server.Response;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -24,7 +25,7 @@ public class Main {
 
 
     private static HashMap<String, BaseHandler> registerRoutes() {
-        HashMap<String, BaseHandler> map = new HashMap<>();
+        HashMap<String, BaseHandler> map = new HashMap<String, BaseHandler>();
 
         map.put("/", new IndexHandler());
         map.put("/static/all.gif", new ImageHandler());
@@ -50,6 +51,16 @@ public class Main {
         HttpServer server = new HttpServer(8890);
 
         HashMap<String, BaseHandler> routes = registerRoutes();
+
+        JsonApplicationContext applicationContext = new JsonApplicationContext("application.json");
+        applicationContext.init();
+
+        try {
+            Robot aiRobot = (Robot) applicationContext.getBean("robot");
+            aiRobot.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         while (true) {
 

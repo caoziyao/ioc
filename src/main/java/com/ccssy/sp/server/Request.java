@@ -1,4 +1,4 @@
-package main.server;
+package com.ccssy.sp.server;
 
 import java.util.HashMap;
 

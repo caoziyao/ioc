@@ -1,15 +1,9 @@
-package main.routes;
+package com.ccssy.sp.routes;
 
-import main.MyFileReader;
-import main.TestAnnotation;
-import main.Utils;
-import main.server.Request;
-import main.server.Response;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-
+import com.ccssy.sp.MyFileReader;
+import com.ccssy.sp.TestAnnotation;
+import com.ccssy.sp.server.Request;
+import com.ccssy.sp.server.Response;
 
 
 public class IndexHandler implements BaseHandler {
@@ -18,7 +12,7 @@ public class IndexHandler implements BaseHandler {
     public void render(Request request, Response response) {
         MyFileReader reader = new MyFileReader();
         final String fileName = "index.html";
-        final String path = "src/resources/templates/" + fileName;
+        final String path = "src/main/resources/templates/" + fileName;
 
         byte[] str = reader.readFileByByte(path);
 
