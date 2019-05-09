@@ -9,7 +9,7 @@ public class ViewResolver {
     public static View viewFromMV(ModelAndView mv) {
         View view;
 
-        if (mv.contentType.equals("application/json")) {
+        if (mv.getContentType().equals("application/json")) {
             view = new JsonView(mv);
         } else {
             view = new TemplateView(mv);

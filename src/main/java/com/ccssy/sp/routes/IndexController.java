@@ -4,8 +4,10 @@ import com.ccssy.sp.TestAnnotation;
 import com.ccssy.sp.server.ModelAndView;
 import com.ccssy.sp.server.Request;
 import com.ccssy.sp.server.Response;
+import com.ccssy.sp.server.annotation.RequestMapping;
 
 
+@RequestMapping(value = "/")
 public class IndexController implements HandlerAdapter {
 
     public ModelAndView handle(Request request, Response response) {
@@ -18,6 +20,11 @@ public class IndexController implements HandlerAdapter {
         response.setContentType("text/html");
 
         return mv;
+    }
+
+
+    public void test2() {
+        System.out.println("test RequestMapping ");
     }
 
 

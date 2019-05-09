@@ -1,7 +1,10 @@
 package com.ccssy.sp.bean;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class BeanDefinition {
 
     private String name;
@@ -17,27 +20,7 @@ public class BeanDefinition {
     private List<String> propertyArgs;
 
 
-    public String getName() {
-        return name;
-    }
-
-
-    public String getClassName() {
-        return className;
-    }
-
-
     public List<String> getConstructorArgs() {
         return null;
-    }
-
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public void setClassName(String className) {
-        this.className = className;
     }
 }

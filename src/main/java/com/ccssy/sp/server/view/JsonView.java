@@ -14,7 +14,7 @@ public class JsonView implements View {
 
 
     public byte[] render() {
-        byte[] bytes = Utils.strToByteArray(mv.model);
+        byte[] bytes = Utils.strToByteArray(mv.getModel());
 
         return bytes;
     }
