@@ -14,10 +14,8 @@ public class BeanFactoryImpl implements BeanFactory {
 
     // beanName和实例化之后的对象
     private static final ConcurrentHashMap<String, Object> beanMap = new ConcurrentHashMap<String, Object>();
-
     // 对象的名称和对象对应的数据结构
     private static final ConcurrentHashMap<String, BeanDefinition> beanDefineMap = new ConcurrentHashMap<String, BeanDefinition>();
-
     private static final Set<String> beanNameSet = Collections.synchronizedSet(new HashSet<String>());
 
 

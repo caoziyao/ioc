@@ -5,6 +5,8 @@ import com.ccssy.sp.routes.*;
 import com.ccssy.sp.server.*;
 import com.ccssy.sp.server.control.HandlerExecutionChain;
 import com.ccssy.sp.server.control.HandlerMapping;
+import com.ccssy.sp.server.view.View;
+import com.ccssy.sp.server.view.ViewResolver;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -16,11 +18,9 @@ import java.net.SocketTimeoutException;
 
 public class Main {
 
-
     public static void main(String[] args) throws IOException {
 
         HttpServer server = new HttpServer(8890);
-
         HandlerMapping hm = new HandlerMapping();
 
         JsonApplicationContext applicationContext = new JsonApplicationContext("application.json");
@@ -51,12 +51,13 @@ public class Main {
                 // 执行处理器相关的拦截器的预处理（HandlerInterceptor.preHandle）
                 he.applyPreHandle(request, response);
 
+                // view
                 ModelAndView mv = ha.handle(request, response);
-                byte[] bytes = DispatcherServlet.viewFromResolver(mv);
+                View view = ViewResolver.viewFromMV(mv);
 
                 // 执行处理器相关的拦截器的后处理（HandlerInterceptor.postHandle）
                 he.applyPostHandle(request, response);
-                DispatcherServlet.render(response, bytes);
+                DispatcherServlet.render(response, view);
 
                 // 执行处理器相关的拦截器的完成后处理（HandlerInterceptor.afterCompletion）
                 he.triggerAfterCompletion(request, response);

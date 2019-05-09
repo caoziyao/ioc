@@ -15,9 +15,7 @@ import java.util.List;
 public class HandlerExecutionChain {
 
     private int interceptorIndex;
-
     private HandlerAdapter handler;
-
     List<HandlerInterceptor> interceptorList;
 
 

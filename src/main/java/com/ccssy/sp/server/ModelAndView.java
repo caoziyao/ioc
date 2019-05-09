@@ -1,16 +1,27 @@
 package com.ccssy.sp.server;
 
+import java.util.HashMap;
+
 public class ModelAndView {
 
-    public String view;
-
+    private String viewName;
     public String model;
-
     public String contentType;
+    private HashMap<String, Object> mapped;
 
 
-    public void setView(String view) {
-        this.view = view;
+    public void addObject(String key, Object value) {
+        mapped.put(key, value);
+    }
+
+
+    public void setViewName(String viewName) {
+        this.viewName = viewName;
+    }
+
+
+    public String getViewName() {
+        return viewName;
     }
 
 

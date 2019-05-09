@@ -15,6 +15,7 @@ public class Request {
     private HashMap<String, String> headers;
     private String body;
 
+
     public Request(byte[] request) {
         this.requestParse = new RequestParse();
 

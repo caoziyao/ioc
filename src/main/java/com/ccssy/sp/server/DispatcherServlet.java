@@ -1,10 +1,8 @@
 package com.ccssy.sp.server;
 
-import com.ccssy.sp.routes.HandlerAdapter;
-import com.ccssy.sp.routes.NotFoundController;
+import com.ccssy.sp.server.view.View;
+import com.ccssy.sp.server.view.ViewResolver;
 import com.ccssy.sp.utils.Utils;
-
-import java.util.HashMap;
 
 /**
  * DispatcherServlet处理HTTP请求的工作流程：
@@ -16,31 +14,8 @@ import java.util.HashMap;
  * */
 public class DispatcherServlet {
 
-//    public static HandlerAdapter getController(HashMap<String, HandlerAdapter> routes, String path) {
-//
-//        HandlerAdapter route = routes.get(path);
-//        if (route == null) {
-//            route = new NotFoundController();
-//        }
-//
-//        return route;
-//    }
-
-
-    public static byte[] viewFromResolver(ModelAndView mv) {
-
-        byte[] bytes;
-        if (mv.contentType.equals("application/json")) {
-            bytes = Utils.strToByteArray(mv.model);
-        } else {
-            bytes = ViewResolver.viewFromName(mv.view);
-        }
-
-        return bytes;
-    }
-
-
-    public static void render(Response response, byte[] bytes) {
+    public static void render(Response response, View view) {
+        byte[] bytes = view.render();
         response.write(bytes);
     }
 }

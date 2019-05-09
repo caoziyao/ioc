@@ -6,9 +6,5 @@ import com.ccssy.sp.server.Response;
 
 public interface HandlerAdapter {
 
-    void init();
-
-    void destroy();
-
-    ModelAndView handle(Request request, Response response);
+    ModelAndView handle(Request req, Response resp);
 }
