@@ -18,7 +18,6 @@ public class TestIoc {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 

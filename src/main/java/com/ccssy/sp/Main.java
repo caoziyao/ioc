@@ -13,7 +13,11 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 /**
+ * 简化开发
+ * http
  * websocket
+ * 日志记录、性能统计、安全控制、异常处理
+ * JDBC访问
  * */
 
 public class Main {

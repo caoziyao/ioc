@@ -1,8 +1,9 @@
 package com.ccssy.sp.server.view;
 
-import com.ccssy.sp.MyFileReader;
+import com.ccssy.sp.server.resource.MyFileReader;
 import com.ccssy.sp.server.ModelAndView;
-import com.ccssy.sp.utils.Utils;
+import com.ccssy.sp.server.resource.PathMatchingResourcePatternResolver;
+import com.ccssy.sp.server.resource.Resource;
 
 public class TemplateView implements View {
 
@@ -19,7 +20,10 @@ public class TemplateView implements View {
         MyFileReader reader = new MyFileReader();
 
         String path = "src/main/resources/" + mv.getViewName();
-        byte[] bytes = reader.readFileByByte(path);
+        PathMatchingResourcePatternResolver solver = new PathMatchingResourcePatternResolver();
+        Resource res = solver.getResources(path);
+
+        byte[] bytes = res.readFileByByte(path);
 
         return bytes;
     }

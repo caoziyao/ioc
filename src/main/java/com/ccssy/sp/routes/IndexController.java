@@ -23,11 +23,6 @@ public class IndexController implements HandlerAdapter {
     }
 
 
-    public void test2() {
-        System.out.println("test RequestMapping ");
-    }
-
-
     @TestAnnotation
     public void test() {
         System.out.println("test hhhh ");

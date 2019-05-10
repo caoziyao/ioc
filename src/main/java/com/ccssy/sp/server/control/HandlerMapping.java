@@ -1,5 +1,5 @@
 package com.ccssy.sp.server.control;
-　
+
 import com.ccssy.sp.TestAnnotation;
 import com.ccssy.sp.routes.*;
 import com.ccssy.sp.server.Interceptor.DemoInterceptor;
@@ -18,9 +18,13 @@ import java.util.List;
 public class HandlerMapping {
 
     private HashMap<String, HandlerExecutionChain> map;
+    List<Class> adapters = new ArrayList<Class>();
 
 
     public HandlerMapping() {
+        adapters.add(JsonController.class);
+        adapters.add(IndexController.class);
+
         initHandlerMappings();
     }
 
@@ -38,13 +42,7 @@ public class HandlerMapping {
         HandlerExecutionChain he3 = new HandlerExecutionChain(new ImageController());
         map.put("/static/all.gif", he3);
 
-        List<Class> objs = new ArrayList<Class>();
-
-        // ioc 注册
-        objs.add(JsonController.class);
-        objs.add(IndexController.class);
-
-        for (Class clzz: objs) {
+        for (Class clzz: this.adapters) {
 
             Annotation[] deAnnos = clzz.getDeclaredAnnotations();
             for (Annotation m: deAnnos) {
