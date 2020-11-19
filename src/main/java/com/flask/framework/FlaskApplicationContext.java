@@ -28,6 +28,10 @@ public class FlaskApplicationContext {
     private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
 
 
+    /**
+     * 该类被创建出来时候加载
+     * @param configClass
+     */
     public FlaskApplicationContext(Class configClass) {
         this.configClass = configClass;
         // BeanDefinition
@@ -37,7 +41,10 @@ public class FlaskApplicationContext {
 
     }
 
-    // 扫描
+    /**
+     * 扫描所有注解的包
+     * @param configClass
+     */
     private void scan(Class configClass) {
         /**
          * 扫描包路径下面的 class 文件
