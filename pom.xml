@@ -13,14 +13,20 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>6</source>
-                    <target>6</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
+        <!--import org.apache.commons.lang3.StringUtils;-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.11</version>
+        </dependency>
         <!-- j2ee-servlet 规范，提供的 jar包 -->
         <dependency>
             <groupId>javax.servlet</groupId>

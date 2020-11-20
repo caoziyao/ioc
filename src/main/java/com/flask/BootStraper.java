@@ -1,11 +1,16 @@
 package com.flask;
 
+import com.flask.framework.DispatcherServlet;
 import com.flask.servlet.ProjectChecker;
 import com.flask.servlet.ProjectConfigBean;
 import com.flask.servlet.ProjectLoader;
 import com.flask.tomcat.WebServerStarter;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import java.net.MalformedURLException;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,15 +31,44 @@ public class BootStraper {
 
     public static  Map<Object, ProjectConfigBean> projectConfigBeans = new ConcurrentHashMap<Object, ProjectConfigBean>();
 
-    public static void main(String[] args) {
+    public static void test() throws ServletException {
+        DispatcherServlet t = new DispatcherServlet();
+        t.init(new ServletConfig() {
+            @Override
+            public String getServletName() {
+                return null;
+            }
+
+            @Override
+            public ServletContext getServletContext() {
+                return null;
+            }
+
+            @Override
+            public String getInitParameter(String s) {
+                return null;
+            }
+
+            @Override
+            public Enumeration<String> getInitParameterNames() {
+                return null;
+            }
+        });
+
+    }
+    public static void main(String[] args) throws ServletException {
+        test();
+
+
         ProjectLoader projectLoader = null;
-        try {
-            projectLoader = new ProjectLoader("flask");
-            BootStraper.projectConfigBeans.put("flask", new ProjectConfigBean());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        projectLoader.load();
+//        try {
+//            projectLoader = new ProjectLoader("flask");
+//            BootStraper.projectConfigBeans.put("flask", new ProjectConfigBean());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+
+//        projectLoader.load();
 //        // 1, 检查目录下是否有项目部署
 //        Set<String> projects = ProjectChecker.check(workSpace);
 //        if (projects != null) {
@@ -47,6 +81,6 @@ public class BootStraper {
 //        // 2, 解析 web.xml
 //
 //        // 服务启动
-        WebServerStarter.start();
+//        WebServerStarter.start();
     }
 }
