@@ -34,7 +34,7 @@ public class BootStraper {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        projectLoader.loadAnnotation();
+        projectLoader.load();
 //        // 1, 检查目录下是否有项目部署
 //        Set<String> projects = ProjectChecker.check(workSpace);
 //        if (projects != null) {

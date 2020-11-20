@@ -16,8 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ProjectConfigBean extends DefaultHandler {
 
-    // Servlet 集合
-    public Map<String, Servlet> servlets = new ConcurrentHashMap<String, Servlet>();
+//    // Servlet 集合
+//    public Map<String, Servlet> servlets = new ConcurrentHashMap<String, Servlet>();
 
     // servlet 映射
     public Map<String, String> servletMapping;
@@ -26,7 +26,7 @@ public class ProjectConfigBean extends DefaultHandler {
     public Map<String, Map<String, String>> servletParam = new HashMap<String, Map<String, String>>();
 
     // Servlet 实例集合
-    Map<String, Object> servletInstances = new HashMap<String, Object>();
+    public Map<String, Servlet> servletInstances = new ConcurrentHashMap<String, Servlet>();
 
     public Map<String, Servlet> getServletInstance() {
         return null;
@@ -36,11 +36,11 @@ public class ProjectConfigBean extends DefaultHandler {
 
     }
 
-    public void set(String route, Servlet servlet) {
-        this.servlets.put(route, servlet);
-    }
-
-    public Servlet get(String route) {
-        return this.servlets.get(route);
-    }
+//    public void set(String route, Servlet servlet) {
+//        this.servlets.put(route, servlet);
+//    }
+//
+//    public Servlet get(String route) {
+//        return this.servlets.get(route);
+//    }
 }

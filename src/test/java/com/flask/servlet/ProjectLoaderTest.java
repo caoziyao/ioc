@@ -14,6 +14,6 @@ class ProjectLoaderTest {
 
     public static void main(String[] args)  throws MalformedURLException {
         ProjectLoader projectLoader = new ProjectLoader("");
-        projectLoader.loadAnnotation();
+        projectLoader.load();
     }
 }

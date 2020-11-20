@@ -2,6 +2,10 @@ package com.flask.servlet;
 
 import com.flask.BootStraper;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import java.io.File;
@@ -9,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -26,35 +31,28 @@ public class ProjectLoader {
 
     public ProjectLoader(String project) throws MalformedURLException {
         this.project = project;
-        // JVM class 文件和第三方 jar 包的存储路径
-        List<URL> urls = new ArrayList<URL>();
-        File libs = new File("jar文件全路径");
-        if (libs.exists()) {
-            for (String lib : libs.list()) {
-                urls.add(new URL(lib));
-            }
-        }
-//        urls.add(new URL(""));
+        System.out.println(this.project);
 
         // 为项目创建一个类加载器，加载项目的 class 和 jar 包
-//        this.loader = new URLClassLoader(urls.toArray(new URL[]{}));
+        // this.loader = new URLClassLoader(urls.toArray(new URL[]{}));
     }
 
     /**
      * 加载 路由
      * @return
      */
-    public ProjectLoader loadAnnotation() {
+    public ProjectLoader load() {
         ClassLoader classLoader = BootStraper.class.getClassLoader();
         URL resource = classLoader.getResource("com/flask/app");
         File file = new File(resource.getFile());
+
+        // 遍历
         if (file.isDirectory()) {
-            ProjectConfigBean projectConfigBean = BootStraper.projectConfigBeans.get(project);;
+            ProjectConfigBean configBean = BootStraper.projectConfigBeans.get(project);;
             for (File f : file.listFiles()) {
                 String absolutePath = f.getAbsolutePath();
                 absolutePath = absolutePath.substring(absolutePath.indexOf("com"), absolutePath.indexOf(".class"));
                 absolutePath = absolutePath.replace("/", ".");
-                System.out.println(absolutePath);
 
                 Class<?> clazz = null;
                 try {
@@ -68,8 +66,36 @@ public class ProjectLoader {
                     System.out.println(route);
 
                     try {
-                        HttpServlet o = (HttpServlet)clazz.newInstance();
-                        projectConfigBean.set(route, o);
+                        // 实例化，反射
+                        Servlet servlet = (Servlet)clazz.newInstance();
+                        // TODO servlet 初始化
+                        try {
+                            servlet.init(new ServletConfig(){
+                                @Override
+                                public String getServletName() {
+                                    return null;
+                                }
+
+                                @Override
+                                public ServletContext getServletContext() {
+                                    return null;
+                                }
+
+                                @Override
+                                public String getInitParameter(String s) {
+                                    return null;
+                                }
+
+                                @Override
+                                public Enumeration<String> getInitParameterNames() {
+                                    return null;
+                                }
+                            });
+                        } catch (ServletException e) {
+                            e.printStackTrace();
+                        }
+                        // 保存对象
+                        configBean.servletInstances.put(route, servlet);
                     } catch (InstantiationException e) {
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
@@ -78,20 +104,6 @@ public class ProjectLoader {
                 }
             }
         }
-//        File file = new File(resource.getFile());
-        // 获取src资源文件编译后的路径（即classes路径）
-//        System.out.println(file);
-        return null;
-    }
-
-    public ProjectLoader load() {
-        ProjectConfigBean configBean = BootStraper.projectConfigBeans.get(project);
-//        configBean.s
-        // 变量
-//        // 3, 加载 和 初始化 servlet （启动时加载，可配置）
-//        for (String project: projects) {
-//            // servlet 加载，实例化，初始化
-//        }
-        return null;
+        return this;
     }
 }
