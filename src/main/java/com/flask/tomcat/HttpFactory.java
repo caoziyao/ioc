@@ -27,7 +27,7 @@ public class HttpFactory {
      * @return
      */
     public static HttpServletRequest createRequest(final byte [] requestBody) {
-        final String requestString = new String(requestBody);
+
         return new HttpServletRequest() {
             @Override
             public String getAuthType() {
@@ -67,7 +67,7 @@ public class HttpFactory {
             @Override
             public String getMethod() {
                 // TODO
-//                String requestString = new String(requestBody);
+                String requestString = new String(requestBody);
                 String method = requestString.split("\r\n")[0].split(" ")[0];
                 return method;
             }
@@ -114,7 +114,9 @@ public class HttpFactory {
 
             @Override
             public String getRequestURI() {
-                return null;
+                String requestString = new String(requestBody);
+                String uri = requestString.split(" ")[1].split(" ")[0];
+                return uri;
             }
 
             @Override
@@ -408,7 +410,7 @@ public class HttpFactory {
                     @Override
                     public void write(byte[] b) throws IOException {
                         // 返回数据
-                        super.write("HTTP/1.1 200 OK\r\n".getBytes());
+                        super.write("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n".getBytes());
                         super.write(b);
                     }
 

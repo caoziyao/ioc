@@ -70,7 +70,6 @@ public class FlaskApplicationContext {
             // 得到类
             if (file.isDirectory()) {
                 for (File f : file.listFiles()) {
-                    System.out.println(f);
                     String absolutePath = f.getAbsolutePath();
                     absolutePath = absolutePath.substring(absolutePath.indexOf("com"), absolutePath.indexOf(".class"));
                     absolutePath = absolutePath.replace("/", ".");
