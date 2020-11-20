@@ -1,7 +1,6 @@
 package com.flask.tomcat;
 
 import com.flask.BootStraper;
-import com.flask.app.IndexServlet;
 import com.flask.servlet.ProjectConfigBean;
 
 import javax.servlet.*;

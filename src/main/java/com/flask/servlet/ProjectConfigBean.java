@@ -35,12 +35,4 @@ public class ProjectConfigBean extends DefaultHandler {
     public ProjectConfigBean() {
 
     }
-
-//    public void set(String route, Servlet servlet) {
-//        this.servlets.put(route, servlet);
-//    }
-//
-//    public Servlet get(String route) {
-//        return this.servlets.get(route);
-//    }
 }
