@@ -35,10 +35,4 @@ public class WebServerStarter {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        WebServerStarter.start();
-//        WebServerStarter webServerStarter = new WebServerStarter();
-//        webServerStarter.start();
-    }
 }
