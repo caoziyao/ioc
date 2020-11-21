@@ -22,6 +22,11 @@ public class OrderService implements BeanNameAware, InitializingBean {
 
     private String userName;
 
+    public void say() {
+        System.out.println(userService);
+        System.out.println("order say");
+    }
+
     public void test() {
         System.out.println(userName);
         System.out.println(beanName);

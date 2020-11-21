@@ -58,8 +58,6 @@ public class BootStraper {
     }
     public static void main(String[] args) throws ServletException {
 //        test();
-
-
         ProjectLoader projectLoader = null;
         try {
             projectLoader = new ProjectLoader("flask");
@@ -78,7 +76,6 @@ public class BootStraper {
             }
 
         }
-
 
         // 服务启动
         WebServerStarter.start();

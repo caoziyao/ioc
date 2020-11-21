@@ -9,6 +9,6 @@ import com.flask.framework.annotation.ComponentScan;
  * @version 1.0.0
  * @since 2020/11/20
  */
-@ComponentScan("com.flask.service")
+@ComponentScan("com.flask")
 public class AppConfig {
 }

@@ -12,7 +12,7 @@ import com.flask.service.UserService;
  */
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // Classpath
         // 1，扫描
         // 2，实例化 （Bean的生命周期） 依赖注入

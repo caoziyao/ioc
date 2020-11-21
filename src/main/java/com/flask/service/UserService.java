@@ -1,5 +1,6 @@
 package com.flask.service;
 
+import com.flask.framework.annotation.Autowired;
 import com.flask.framework.annotation.Component;
 
 /**
@@ -11,6 +12,13 @@ import com.flask.framework.annotation.Component;
  */
 @Component("userService")
 public class UserService {
+    @Autowired
+    private OrderService orderService;
+
+    public void say() {
+        System.out.println(orderService);
+        System.out.println("user say");
+    }
     public String getName() {
         return "userrr";
     }

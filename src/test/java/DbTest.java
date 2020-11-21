@@ -1,5 +1,4 @@
 import java.sql.*;
-import java.util.Random;
 
 /**
  * Description:
@@ -14,7 +13,7 @@ public class DbTest {
     public static final String PASSWORD = "zk123n456";
 
     private static Connection conn = null;
-    static{
+    static {
         try {
             //1.加载驱动程序
             Class.forName("com.mysql.jdbc.Driver");
@@ -102,6 +101,45 @@ public class DbTest {
         ptmt.execute();
     }
 
+    /**
+     * 事务
+     * @throws SQLException
+     */
+    public void transaction() throws SQLException {
+        Connection conn = DbTest.getConnection();
+        PreparedStatement ptmt = null;
+        try {
+            //将自动提交设置为false
+            conn.setAutoCommit(false);
+
+            // sql1
+            String sql = "INSERT INTO user(username, age) values(" + "?, ?)";
+            ptmt = conn.prepareStatement(sql); //预编译SQL，减少sql执行
+            ptmt.setString(1, "username1");
+            ptmt.setInt(2, 12);
+            ptmt.execute();
+
+            // sql2
+            String sql2 = "INSERT INTO user(username, age) values(" + "?, ?)";
+            ptmt = conn.prepareStatement(sql2); //预编译SQL，减少sql执行
+            ptmt.setString(1, "username2");
+            ptmt.setInt(2, 14);
+            ptmt.execute();
+
+            // 模拟错误
+            // int i = 1 / 0;
+
+            // 当两个操作成功后手动提交
+            conn.commit();
+        } catch (Exception e) {
+            conn.rollback();    //一旦其中一个操作出错都将回滚，使两个操作都不成功
+            e.printStackTrace();
+        } finally {
+            //设置事务提交方式为自动提交：
+            conn.setAutoCommit(true);
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         DbTest t = new DbTest();
         t.query();
@@ -114,5 +152,8 @@ public class DbTest {
         t.query();
         System.out.println("---删除---");
         // del();
+        System.out.println("---事务---");
+        t.transaction();
+        t.query();
     }
 }

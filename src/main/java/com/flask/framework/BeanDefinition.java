@@ -9,7 +9,9 @@ package com.flask.framework;
  */
 public class BeanDefinition {
 
+    // 作用域
     private String scope;
+    // 是否懒加载
     private Boolean isLazy;
     // bean 类型
     private Class beanClass;

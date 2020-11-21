@@ -1,10 +1,10 @@
 package com.flask.tomcat;
 
-import com.flask.BootStraper;
 import com.flask.framework.DispatcherServlet;
-import com.flask.servlet.ProjectConfigBean;
 
-import javax.servlet.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

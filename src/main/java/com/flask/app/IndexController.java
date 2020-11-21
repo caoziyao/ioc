@@ -16,11 +16,17 @@ import com.flask.service.UserService;
 @RestController
 @RequestMapping("/test")
 public class IndexController {
+
     @Resource(name = "userService")
     private UserService userService;
 
+//    @Resource(name = "orderService")
+//    private OrderService orderService;
+
     @RequestMapping("/abc")
     public String abc(String name) {
+//        orderService.say();
+        userService.say();
         String username = userService.getName();
         return "hello:" + username + ":" + name;
     }
