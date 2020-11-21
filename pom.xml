@@ -21,6 +21,12 @@
     </build>
 
     <dependencies>
+        <!--mysql jdbc-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.21</version>
+        </dependency>
         <!--import org.apache.commons.lang3.StringUtils;-->
         <dependency>
             <groupId>org.apache.commons</groupId>
