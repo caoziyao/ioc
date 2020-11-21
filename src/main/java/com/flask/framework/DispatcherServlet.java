@@ -7,16 +7,15 @@ import com.flask.framework.annotation.RestController;
 import org.apache.commons.lang3.StringUtils;
 import sun.misc.Request;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.URI;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -42,8 +41,8 @@ public class DispatcherServlet extends HttpServlet {
      * 3，保存 url 和 controller 对象以及对具体方法 method 的映射关系
      * 4，根据 URL 请求，调用具体的 controller 里面的方法
      */
-    private Map<String, Object> urlControllerMap = new ConcurrentHashMap<String, Object>();
-    private Map<String, Method> urlMethodMapping = new ConcurrentHashMap<String, Method>();
+    private Map<String, String> urlControllerMap = new ConcurrentHashMap<>();
+    private Map<String, Method> urlMethodMapping = new ConcurrentHashMap<>();
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -64,7 +63,46 @@ public class DispatcherServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        // 1，根据 url 找到 handler ()
+        String url = req.getServletPath();
+        if (!this.urlControllerMap.containsKey(url)) {
+            resp.getOutputStream().write("404".getBytes());
+            return;
+        }
+        // 2，参数解析
+        Method method = this.urlMethodMapping.get(url);
+//        Object[] parameters = method.getParameters();
+        Object[] paramValues = new Object[method.getParameters().length];
+        for (int i = 0; i < paramValues.length; i++) {
+            Class<?> type = method.getParameters()[i].getType();
+            if (ServletRequest.class.isAssignableFrom(type)) {
+                paramValues[i] = req;
+            } else if (ServletResponse.class.isAssignableFrom(type)) {
+                paramValues[i] = resp;
+            } else {
+                // TODO 实现一种字符串参数榜绑定
+                String name = method.getParameters()[i].getName();
+                // paramValues[i] = req.getParameterMap().get(name)[0];
+                paramValues[i] = "defalut";
+            } // TODO 对象绑定，参数路径。。。等等参数绑定功能
+        }
+
+        // 3，调用。反射
+        try {
+            String controllerName = this.urlControllerMap.get(url);
+             Object result = method.invoke(this.beanContain.get(controllerName), paramValues);
+            // 4， 返回结果
+            if (result != null) {
+                resp.getOutputStream().write(result.toString().getBytes());
+                resp.getOutputStream().flush();
+            }
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        // 4，返回结果
     }
 
     /**

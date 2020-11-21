@@ -1,6 +1,7 @@
 package com.flask.tomcat;
 
 import com.flask.BootStraper;
+import com.flask.framework.DispatcherServlet;
 import com.flask.servlet.ProjectConfigBean;
 
 import javax.servlet.*;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Enumeration;
 
 /**
  * Description: 具体处理请求
@@ -37,12 +39,35 @@ public class SocketProcessor implements Runnable {
             HttpServletResponse response = HttpFactory.createResponse(connection);
 
             // 寻找 servlet
-            ProjectConfigBean projectConfigBean = BootStraper.projectConfigBeans.get("flask");
-            Servlet servlet = projectConfigBean.servletInstances.get(request.getRequestURI());
-             if (servlet == null) {
-                response.getOutputStream().write("404".getBytes());
-                return;
-            }
+//            ProjectConfigBean projectConfigBean = BootStraper.projectConfigBeans.get("flask");
+//            Servlet servlet = projectConfigBean.servletInstances.get(request.getRequestURI());
+//             if (servlet == null) {
+//                response.getOutputStream().write("404".getBytes());
+//                return;
+//            }
+            // 2, 解析 web.xml
+            DispatcherServlet servlet = new DispatcherServlet();
+            servlet.init(new ServletConfig() {
+                @Override
+                public String getServletName() {
+                    return null;
+                }
+
+                @Override
+                public ServletContext getServletContext() {
+                    return null;
+                }
+
+                @Override
+                public String getInitParameter(String s) {
+                    return null;
+                }
+
+                @Override
+                public Enumeration<String> getInitParameterNames() {
+                    return null;
+                }
+            });
 
             servlet.service(request, response);
 

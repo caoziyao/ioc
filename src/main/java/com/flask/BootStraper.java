@@ -57,30 +57,30 @@ public class BootStraper {
 
     }
     public static void main(String[] args) throws ServletException {
-        test();
+//        test();
 
 
         ProjectLoader projectLoader = null;
-//        try {
-//            projectLoader = new ProjectLoader("flask");
-//            BootStraper.projectConfigBeans.put("flask", new ProjectConfigBean());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            projectLoader = new ProjectLoader("flask");
+            BootStraper.projectConfigBeans.put("flask", new ProjectConfigBean());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
-//        projectLoader.load();
-//        // 1, 检查目录下是否有项目部署
-//        Set<String> projects = ProjectChecker.check(workSpace);
-//        if (projects != null) {
-//            for (String project: projects) {
-//                ProjectConfigBean projectConfigBean = new ProjectConfigBean();
-//                projectConfigBeans.put(project,  projectConfigBean);
-//            }
-//
-//        }
-//        // 2, 解析 web.xml
-//
-//        // 服务启动
-//        WebServerStarter.start();
+        projectLoader.load();
+        // 1, 检查目录下是否有项目部署
+        Set<String> projects = ProjectChecker.check(workSpace);
+        if (projects != null) {
+            for (String project: projects) {
+                ProjectConfigBean projectConfigBean = new ProjectConfigBean();
+                projectConfigBeans.put(project,  projectConfigBean);
+            }
+
+        }
+
+
+        // 服务启动
+        WebServerStarter.start();
     }
 }

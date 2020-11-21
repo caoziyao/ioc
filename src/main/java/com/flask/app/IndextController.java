@@ -20,7 +20,7 @@ public class IndextController {
     private UserService userService;
 
     @RequestMapping("/abc")
-    public String abc() {
-        return "abc";
+    public String abc(String d) {
+        return "abc" + d;
     }
 }

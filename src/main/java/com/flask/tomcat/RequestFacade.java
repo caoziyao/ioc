@@ -6,10 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Description:
@@ -108,6 +105,10 @@ public class RequestFacade implements HttpServletRequest  {
         return null;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     @Override
     public String getRequestURI() {
         String requestString = new String(requestBody);
@@ -120,9 +121,15 @@ public class RequestFacade implements HttpServletRequest  {
         return null;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     @Override
     public String getServletPath() {
-        return null;
+        String requestString = new String(requestBody);
+        String uri = requestString.split(" ")[1].split(" ")[0];
+        return uri;
     }
 
     @Override
@@ -245,8 +252,16 @@ public class RequestFacade implements HttpServletRequest  {
         return new String[0];
     }
 
+    /**
+     * todo
+     * @return
+     */
     @Override
     public Map<String, String[]> getParameterMap() {
+        Map<String, String[]> result = new HashMap<>();
+        String requestString = new String(requestBody);
+        String uri = requestString.split(" ")[1].split(" ")[0];
+//        String split = uri.s("?")[0];
         return null;
     }
 
