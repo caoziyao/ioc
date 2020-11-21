@@ -129,6 +129,9 @@ public class RequestFacade implements HttpServletRequest  {
     public String getServletPath() {
         String requestString = new String(requestBody);
         String uri = requestString.split(" ")[1].split(" ")[0];
+        if (uri.contains("?")) {
+            uri = uri.substring(0, uri.indexOf("?"));
+        }
         return uri;
     }
 
@@ -258,11 +261,32 @@ public class RequestFacade implements HttpServletRequest  {
      */
     @Override
     public Map<String, String[]> getParameterMap() {
-        Map<String, String[]> result = new HashMap<>();
+        Map<String, List<String>> result = new HashMap<>();
         String requestString = new String(requestBody);
         String uri = requestString.split(" ")[1].split(" ")[0];
-//        String split = uri.s("?")[0];
-        return null;
+
+        if (uri.contains("?")) {
+            String[] parameters = uri.split("\\?")[1].split("&");
+            Arrays.stream(parameters)
+                    .forEach(each -> {
+                        if (each.contains("=")) {
+                            String k = each.split("=")[0];
+                            String v = each.split("=")[1];
+                            if (result.containsKey(k)) {
+                                result.get(k).add(v);
+                            } else {
+                                result.put(k, Arrays.asList(v));
+                            }
+                        }
+
+                    });
+        }
+        Map<String, String[]> newResult = new HashMap<>();
+        result.forEach((k, v) -> {
+            String[] r =  v.toArray(new String[v.size()]);
+            newResult.put(k, r);
+        });
+        return newResult;
     }
 
     @Override

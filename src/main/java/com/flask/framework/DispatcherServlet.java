@@ -24,7 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Description: DispatcherServlet 负责将请求分发，所有的请求都有经过它来统一分发
- *  request -> Tomcat -> DispatcherServlet   url 匹配
+ * request -> Tomcat -> DispatcherServlet   url 匹配
+ *
  * @author csy
  * @version 1.0.0
  * @since 2020/11/21
@@ -34,7 +35,7 @@ public class DispatcherServlet extends HttpServlet {
     private static String scanBasePackage = "";
     /**
      * 2, 初始化 bean 容器， bean容器（用来存放对象的）
-     *  拿到扫描的类，通过反射实例化，并且放到 bean 容器中(beanName: bean)
+     * 拿到扫描的类，通过反射实例化，并且放到 bean 容器中(beanName: bean)
      */
     private Map<String, Object> beanContain = new ConcurrentHashMap<String, Object>();
     /**
@@ -80,17 +81,15 @@ public class DispatcherServlet extends HttpServlet {
             } else if (ServletResponse.class.isAssignableFrom(type)) {
                 paramValues[i] = resp;
             } else {
-                // TODO 实现一种字符串参数榜绑定
                 String name = method.getParameters()[i].getName();
-                // paramValues[i] = req.getParameterMap().get(name)[0];
-                paramValues[i] = "defalut";
+                paramValues[i] = req.getParameterMap().get(name)[0];
             } // TODO 对象绑定，参数路径。。。等等参数绑定功能
         }
 
         // 3，调用。反射
         try {
             String controllerName = this.urlControllerMap.get(url);
-             Object result = method.invoke(this.beanContain.get(controllerName), paramValues);
+            Object result = method.invoke(this.beanContain.get(controllerName), paramValues);
             // 4， 返回结果
             if (result != null) {
                 resp.getOutputStream().write(result.toString().getBytes());
@@ -108,6 +107,7 @@ public class DispatcherServlet extends HttpServlet {
     /**
      * 3，找到映射。保存 URL 和 controller 类及具体方法的映射关系
      * url : controller method
+     *
      * @throws Exception
      */
     private void initUrlHandlerMapping() throws Exception {
@@ -117,7 +117,7 @@ public class DispatcherServlet extends HttpServlet {
                     Class controllerClass = entry.getValue().getClass();
                     StringBuilder baseUrl = new StringBuilder();
                     if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
-                        RequestMapping annotation = (RequestMapping)controllerClass.getAnnotation(RequestMapping.class);
+                        RequestMapping annotation = (RequestMapping) controllerClass.getAnnotation(RequestMapping.class);
                         baseUrl.append(annotation.value());
                     }
                     // 遍历所有方法，将方法和请求地址形成映射
@@ -135,9 +135,9 @@ public class DispatcherServlet extends HttpServlet {
     }
 
 
-
     /**
      * 2, 容器初始化
+     *
      * @param config
      * @throws Exception
      */
@@ -217,6 +217,7 @@ public class DispatcherServlet extends HttpServlet {
      * 1，读取指定的配置文件
      * 注解解析
      * 拿到 scanBasePackage 路径
+     *
      * @throws Exception
      */
     private void loadConfig() throws Exception {
