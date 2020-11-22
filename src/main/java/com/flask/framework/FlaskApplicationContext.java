@@ -1,18 +1,23 @@
 package com.flask.framework;
 
+import com.flask.aop.Aspect;
+import com.flask.aop.Before;
+import com.flask.aop.DynamicProxy;
+import com.flask.aop.LoginAspect;
 import com.flask.framework.annotation.*;
+import com.flask.service.IUserService;
+import com.flask.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -210,39 +215,32 @@ public class FlaskApplicationContext implements BeanFactory {
             Constructor declaredConstructor = beanClass.getDeclaredConstructor();
             Object instance = declaredConstructor.newInstance();
 
+            // AOP
+            if (beanClass.isAnnotationPresent(Aspect.class)) {
+                Aspect proxyAnno = (Aspect)beanClass.getAnnotation(Aspect.class);
+                String proxyClassPackage = proxyAnno.value();
+                Class<?> proxyClazz = null;
+                try {
+                    proxyClazz = Class.forName(proxyClassPackage);
+                    LoginAspect proxyInstance = (LoginAspect)proxyClazz.getDeclaredConstructor().newInstance();
+                    IUserService s =  (IUserService)proxyInstance.getProxyObject(instance);
+                    instance = s;
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                for (Method method : beanClass.getMethods()) {
+                    if (method.isAnnotationPresent(Before.class)) {
+//                        System.out.println("before------");
+//                        Object proxyInstance = proxyClazz.newInstance();
+                    }
+                }
+            }
+
             if (isSingletonCurrentlyInCreation(beanClass)) {
                 // 放在二级缓存
                 earlySingletonObjects.put(beanName, instance);
             }
 
-            // 2，依赖注入
-//            Arrays.stream(beanClass.getDeclaredFields())
-//                    .filter(field -> {
-//                        return field.isAnnotationPresent(Autowired.class)  ||
-//                                field.isAnnotationPresent(Resource.class);
-//                    })
-//                    .forEach(field -> {
-//                        if (field.isAnnotationPresent(Autowired.class)) {
-//                            // todo byType byName
-//                            Object bean = getBean(field.getName());
-//                            field.setAccessible(true);
-//                            try {
-//                                field.set(instance, bean);
-//                            } catch (IllegalAccessException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        if (field.isAnnotationPresent(Resource.class)) {
-//                            Resource annotation = field.getAnnotation(Resource.class);
-//                            Object bean = getBean(annotation.name());
-//                            field.setAccessible(true);
-//                            try {
-//                                field.set(instance, bean);
-//                            } catch (IllegalAccessException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    });
             for (Field field : beanClass.getDeclaredFields()) {
                 if (field.isAnnotationPresent(Autowired.class)) {
                     // todo byType byName
@@ -254,6 +252,7 @@ public class FlaskApplicationContext implements BeanFactory {
                     Resource annotation = field.getAnnotation(Resource.class);
                     Object bean = getBean(annotation.name());
                     field.setAccessible(true);
+//                    System.out.println(field.get(instance));
                     field.set(instance, bean);
                 }
             }
@@ -267,7 +266,7 @@ public class FlaskApplicationContext implements BeanFactory {
                 ((InitializingBean) instance).afterPropertiesSet();
             }
 
-            // AOP
+
             return instance;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -337,4 +336,34 @@ public class FlaskApplicationContext implements BeanFactory {
                 ));
         return collect;
     }
+
+
+    // 2，依赖注入
+//            Arrays.stream(beanClass.getDeclaredFields())
+//                    .filter(field -> {
+//                        return field.isAnnotationPresent(Autowired.class)  ||
+//                                field.isAnnotationPresent(Resource.class);
+//                    })
+//                    .forEach(field -> {
+//                        if (field.isAnnotationPresent(Autowired.class)) {
+//                            // todo byType byName
+//                            Object bean = getBean(field.getName());
+//                            field.setAccessible(true);
+//                            try {
+//                                field.set(instance, bean);
+//                            } catch (IllegalAccessException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        if (field.isAnnotationPresent(Resource.class)) {
+//                            Resource annotation = field.getAnnotation(Resource.class);
+//                            Object bean = getBean(annotation.name());
+//                            field.setAccessible(true);
+//                            try {
+//                                field.set(instance, bean);
+//                            } catch (IllegalAccessException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    });
 }

@@ -59,7 +59,7 @@ public class DispatcherServlet extends HttpServlet {
             beanContain = flaskApplicationContext.getControllerBean();
             initUrlHandlerMapping();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

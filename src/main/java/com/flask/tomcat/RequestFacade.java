@@ -242,7 +242,13 @@ public class RequestFacade implements HttpServletRequest  {
 
     @Override
     public String getParameter(String s) {
-        return null;
+        Map<String, String[]> parameterMap = getParameterMap();
+        return Optional.ofNullable(parameterMap)
+                .map(m -> m.get(s))
+                .map(ss -> ss[0])
+                .orElse(null);
+        //  String[] strings = parameterMap.get(s);
+        // return Optional.ofNullable(strings).map(u -> u[0]).orElse(null);
     }
 
     @Override

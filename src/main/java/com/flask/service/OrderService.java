@@ -15,33 +15,33 @@ import com.flask.framework.annotation.Component;
 //@Scope("prototype")
 //@Lazy
 public class OrderService implements BeanNameAware, InitializingBean {
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private UserService userService;
 
     private String beanName;
 
     private String userName;
 
     public void say() {
-        System.out.println(userService);
+//        System.out.println(userService);
         System.out.println("order say");
     }
 
     public void test() {
         System.out.println(userName);
         System.out.println(beanName);
-        System.out.println(userService);
+//        System.out.println(userService);
     }
 
 
-    //    @Override
+    @Override
     public void setBeanName(String beanName) {
-        this.beanName = beanName;
+//        this.beanName = beanName;
 
     }
 
-    //  @Override
+    @Override
     public void afterPropertiesSet() {
-        this.userName = userService.getName();
+//        this.userName = userService.getName();
     }
 }
