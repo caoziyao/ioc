@@ -342,7 +342,7 @@ public class FlaskApplicationContext implements BeanFactory {
     }
 
 
-    // 2，依赖注入
+    // 依赖注入
 //            Arrays.stream(beanClass.getDeclaredFields())
 //                    .filter(field -> {
 //                        return field.isAnnotationPresent(Autowired.class)  ||

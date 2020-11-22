@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/test")
 public class IndexController {
 
-
     @Resource(name = "userService")
     private UserService userService;
 //    private IUserService userService;

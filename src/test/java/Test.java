@@ -20,6 +20,5 @@ public class Test {
         OrderService orderService = (OrderService)context.getBean("orderService");
         System.out.println(orderService);
         orderService.test();
-
     }
 }

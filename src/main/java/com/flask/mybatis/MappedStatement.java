@@ -2,12 +2,12 @@ package com.flask.mybatis;
 
 /**
  * Description: mapper sql的封装对象
- *
+ *      对应 mapper.xml 的一个 sql 节点
  * @author csy
  * @version 1.0.0
  * @since 2020/11/21
  */
-public class MappedStatement {
+public final class MappedStatement {
 
     private String namespace;
 

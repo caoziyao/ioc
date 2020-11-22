@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mapper namespace="com.flask.mybatis.mapper.UserMapper">
+
+    <select id="getUser" resultType="com.flask.mybatis.bean.User">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="getUser2" resultType="com.flask.mybatis.bean.User">
+        select * from user where id = #{id}
+    </select>
+</mapper>

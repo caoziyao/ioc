@@ -2,6 +2,7 @@ package com.flask.mybatis;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Description: 总配置信息
@@ -12,6 +13,11 @@ import java.util.Map;
  */
 public class Configuration {
 
+    /**
+     * 配置项
+     */
+    public static Properties PROPS = new Properties();
+
     private String jdbcDriver;
 
     private String jdbcUrl;
@@ -20,11 +26,17 @@ public class Configuration {
 
     private String jdbcPassword;
 
+
+    /**
+     * mapper 代理注册
+     */
+    protected MapperRegistry mapperRegistry = new MapperRegistry();
+
     /**
      * key: namespace + sourceId
      * value: sql的封装对象
      */
-    private Map<String, MappedStatement> mappedStatementMap = new HashMap<>();
+    protected Map<String, MappedStatement> mappedStatementMap = new HashMap<>();
 
     public Map<String, MappedStatement> getMappedStatementMap() {
         return mappedStatementMap;
@@ -65,4 +77,13 @@ public class Configuration {
     public void setJdbcPassword(String jdbcPassword) {
         this.jdbcPassword = jdbcPassword;
     }
+
+    public MapperRegistry getMapperRegistry() {
+        return mapperRegistry;
+    }
+
+    public void setMapperRegistry(MapperRegistry mapperRegistry) {
+        this.mapperRegistry = mapperRegistry;
+    }
+
 }
