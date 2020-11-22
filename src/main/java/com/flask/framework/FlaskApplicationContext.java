@@ -1,20 +1,22 @@
 package com.flask.framework;
 
-import com.flask.aop.*;
+import com.flask.aop.Aspect;
+import com.flask.aop.Before;
+import com.flask.aop.LoginAspectCG;
 import com.flask.framework.annotation.*;
-import com.flask.service.IUserService;
-import com.flask.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -142,6 +144,7 @@ public class FlaskApplicationContext implements BeanFactory {
                         definition.setLazy(false);
                     }
                     beanDefinitionMap.put(beanName, definition);
+                    System.out.println("put beanDefinitionMap:" + beanName);
                 }
 
                 // RestController 类
@@ -212,32 +215,11 @@ public class FlaskApplicationContext implements BeanFactory {
             Constructor declaredConstructor = beanClass.getDeclaredConstructor();
             Object instance = declaredConstructor.newInstance();
 
-            // AOP
-            if (beanClass.isAnnotationPresent(Aspect.class)) {
-                Aspect proxyAnno = (Aspect)beanClass.getAnnotation(Aspect.class);
-                String proxyClassPackage = proxyAnno.value();
-                Class<?> proxyClazz = null;
-                try {
-                    proxyClazz = Class.forName(proxyClassPackage);
-                    LoginAspectCG proxyInstance = (LoginAspectCG)proxyClazz.getDeclaredConstructor().newInstance();
-                    instance =  proxyInstance.getProxyObject(instance);
-//                    LoginAspect proxyInstance = (LoginAspect)proxyClazz.getDeclaredConstructor().newInstance();
-//                    IUserService s =  (IUserService)proxyInstance.getProxyObject(instance);
-//                    instance = s;
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                for (Method method : beanClass.getMethods()) {
-                    if (method.isAnnotationPresent(Before.class)) {
-//                        System.out.println("before------");
-//                        Object proxyInstance = proxyClazz.newInstance();
-                    }
-                }
-            }
 
             if (isSingletonCurrentlyInCreation(beanClass)) {
                 // 放在二级缓存
                 earlySingletonObjects.put(beanName, instance);
+                System.out.println("put earlySingletonObjects:" + beanName);
             }
 
             for (Field field : beanClass.getDeclaredFields()) {
@@ -251,7 +233,6 @@ public class FlaskApplicationContext implements BeanFactory {
                     Resource annotation = field.getAnnotation(Resource.class);
                     Object bean = getBean(annotation.name());
                     field.setAccessible(true);
-//                    System.out.println(field.get(instance));
                     field.set(instance, bean);
                 }
             }
@@ -265,6 +246,28 @@ public class FlaskApplicationContext implements BeanFactory {
                 ((InitializingBean) instance).afterPropertiesSet();
             }
 
+            // AOP
+            if (beanClass.isAnnotationPresent(Aspect.class)) {
+                Aspect proxyAnno = (Aspect) beanClass.getAnnotation(Aspect.class);
+                String proxyClassPackage = proxyAnno.value();
+                Class<?> proxyClazz = null;
+                try {
+                    proxyClazz = Class.forName(proxyClassPackage);
+                    LoginAspectCG proxyInstance = (LoginAspectCG) proxyClazz.getDeclaredConstructor().newInstance();
+                    instance = proxyInstance.getProxyObject(instance);
+//                    LoginAspect proxyInstance = (LoginAspect)proxyClazz.getDeclaredConstructor().newInstance();
+//                    IUserService s =  (IUserService)proxyInstance.getProxyObject(instance);
+//                    instance = s;
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                for (Method method : beanClass.getMethods()) {
+                    if (method.isAnnotationPresent(Before.class)) {
+//                        System.out.println("before------");
+//                        Object proxyInstance = proxyClazz.newInstance();
+                    }
+                }
+            }
 
             return instance;
         } catch (NoSuchMethodException e) {
@@ -318,7 +321,9 @@ public class FlaskApplicationContext implements BeanFactory {
     private Object addSingletonBean(String beanName, BeanDefinition definition) {
         Object bean = doCreateBean(beanName, definition);
         singletonObjects.put(beanName, bean);
+        System.out.println("put singletonObjects:" + beanName);
         if (earlySingletonObjects.containsKey(beanName)) {
+            System.out.println("remove earlySingletonObjects:" + beanName);
             earlySingletonObjects.remove(beanName);
         }
         return bean;

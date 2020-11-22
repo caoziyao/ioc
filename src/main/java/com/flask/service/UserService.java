@@ -16,8 +16,9 @@ import com.flask.framework.annotation.Component;
 //@Aspect("com.flask.aop.LoginAspect")
 @Aspect("com.flask.aop.LoginAspectCG")
 public class UserService implements IUserService {
-//    @Autowired
-//    private OrderService orderService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Before
     public void login() {
@@ -25,7 +26,7 @@ public class UserService implements IUserService {
     }
 
     public void say() {
-//        System.out.println(orderService);
+        System.out.println("orderService:----" + orderService);
         System.out.println("user say");
     }
     public String getName() {

@@ -18,9 +18,9 @@ public class OrderService implements BeanNameAware, InitializingBean {
 //    @Autowired
 //    private UserService userService;
 
-    private String beanName;
+    private String beanName = "123";
 
-    private String userName;
+    private String userName = "2234";
 
     public void say() {
 //        System.out.println(userService);

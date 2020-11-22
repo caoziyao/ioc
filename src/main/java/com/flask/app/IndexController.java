@@ -1,11 +1,8 @@
 package com.flask.app;
 
-import com.flask.aop.DynamicProxy;
 import com.flask.framework.annotation.RequestMapping;
 import com.flask.framework.annotation.Resource;
 import com.flask.framework.annotation.RestController;
-import com.flask.service.IUserService;
-import com.flask.service.OrderService;
 import com.flask.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,12 +27,11 @@ public class IndexController {
     @RequestMapping("/abc")
     public String abc(HttpServletRequest request, HttpServletResponse response) {
         userService.login();
-        userService.getName();
+        userService.say();
 //        IUserService user = (IUserService) new DynamicProxy().getProxyObject(userService);
 //        user.login();
-
 //        String username = (UserService)userService.getName();
         String name = request.getParameter("name");
-        return "hello:"  + ":" + name;
+        return "hello:" + ":" + name;
     }
 }
