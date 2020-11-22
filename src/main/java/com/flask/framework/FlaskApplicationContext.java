@@ -1,9 +1,6 @@
 package com.flask.framework;
 
-import com.flask.aop.Aspect;
-import com.flask.aop.Before;
-import com.flask.aop.DynamicProxy;
-import com.flask.aop.LoginAspect;
+import com.flask.aop.*;
 import com.flask.framework.annotation.*;
 import com.flask.service.IUserService;
 import com.flask.service.UserService;
@@ -222,9 +219,11 @@ public class FlaskApplicationContext implements BeanFactory {
                 Class<?> proxyClazz = null;
                 try {
                     proxyClazz = Class.forName(proxyClassPackage);
-                    LoginAspect proxyInstance = (LoginAspect)proxyClazz.getDeclaredConstructor().newInstance();
-                    IUserService s =  (IUserService)proxyInstance.getProxyObject(instance);
-                    instance = s;
+                    LoginAspectCG proxyInstance = (LoginAspectCG)proxyClazz.getDeclaredConstructor().newInstance();
+                    instance =  proxyInstance.getProxyObject(instance);
+//                    LoginAspect proxyInstance = (LoginAspect)proxyClazz.getDeclaredConstructor().newInstance();
+//                    IUserService s =  (IUserService)proxyInstance.getProxyObject(instance);
+//                    instance = s;
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

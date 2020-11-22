@@ -13,7 +13,8 @@ import com.flask.framework.annotation.Component;
  * @since 2020/11/20
  */
 @Component("userService")
-@Aspect("com.flask.aop.LoginAspect")
+//@Aspect("com.flask.aop.LoginAspect")
+@Aspect("com.flask.aop.LoginAspectCG")
 public class UserService implements IUserService {
 //    @Autowired
 //    private OrderService orderService;
@@ -28,6 +29,7 @@ public class UserService implements IUserService {
         System.out.println("user say");
     }
     public String getName() {
+        System.out.println("get name");
         return "userrr";
     }
 }

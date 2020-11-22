@@ -24,11 +24,13 @@ public class IndexController {
 
 
     @Resource(name = "userService")
-    private IUserService userService;
+    private UserService userService;
+//    private IUserService userService;
 
     @RequestMapping("/abc")
     public String abc(HttpServletRequest request, HttpServletResponse response) {
-         userService.login();
+        userService.login();
+        userService.getName();
 //        IUserService user = (IUserService) new DynamicProxy().getProxyObject(userService);
 //        user.login();
 
