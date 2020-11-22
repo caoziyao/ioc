@@ -2,9 +2,11 @@ package com.flask.mybatis.session;
 
 import com.flask.mybatis.Configuration;
 import com.flask.mybatis.MappedStatement;
+import com.flask.mybatis.MapperProxy;
 import com.flask.mybatis.executor.Executor;
 import com.flask.mybatis.executor.SimpleExecutor;
 
+import java.lang.reflect.Proxy;
 import java.util.List;
 
 /**
@@ -32,24 +34,27 @@ public class DefaultSqlSession implements SqlSession {
 
     /**
      * 读取 mapper 对象
+     * 读取配置文件 + 动态代理
      *
-     * @param type
+     * @param type UserMapper 接口
      * @return
      */
     public <T> T getMapper(Class<T> type) {
-//        return (T) configuration.<T>getMappedStatementMap(type, this);
-        return null;
+        MapperProxy mp = new MapperProxy(this);
+        T mapper = (T) Proxy.newProxyInstance(type.getClassLoader(), new Class[]{type}, mp); // InvocationHandler对象
+        return mapper;
+        // return (T) configuration.<T>getMappedStatementMap(type, this);
     }
 
     @Override
     public <T> T selectOne(String statement) {
         MappedStatement ms = configuration.getMappedStatement(statement);
-        List<Object> selectList = executor.query(ms);
+        List<T> selectList = executor.query(ms);
         if (selectList == null || selectList.size() == 0) {
             return null;
         }
         if (selectList.size() == 1) {
-            return (T)selectList.get(0);
+            return (T) selectList.get(0);
         } else {
             throw new RuntimeException("Too Many Results");
         }

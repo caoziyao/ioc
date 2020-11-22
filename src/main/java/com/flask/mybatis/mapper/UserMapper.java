@@ -1,5 +1,7 @@
 package com.flask.mybatis.mapper;
 
+import com.flask.mybatis.bean.User;
+
 /**
  * Description:
  *
@@ -8,4 +10,5 @@ package com.flask.mybatis.mapper;
  * @since 2020/11/22
  */
 public interface UserMapper {
+    User getUserOne();
 }

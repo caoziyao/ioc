@@ -4,6 +4,7 @@ import com.flask.mybatis.session.SqlSession;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Collections;
 
 /**
  * Description: mapper 代理
@@ -14,20 +15,28 @@ import java.lang.reflect.Method;
  */
 public class MapperProxy<T> implements InvocationHandler {
     private SqlSession sqlSession;
-    private Class<T> mapperInterface;
+    // private Class<T> mapperInterface;
 
     /**
      *
      * @param sqlSession sql 链接
-     * @param mapperInterface 接口
      */
-    public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface) {
+    public MapperProxy(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
-        this.mapperInterface = mapperInterface;
+        // this.mapperInterface = mapperInterface;
     }
+
+//    public MapperProxy() {
+//    }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return null;
+        Class<?> returnType = method.getReturnType();
+        String statement = method.getDeclaringClass().getName() + "." + method.getName();
+        if (Collections.class.isAssignableFrom(returnType)) {
+            // 返回值是 Collections 子类，例如 List
+            return sqlSession.selectList(statement);
+        }
+        return sqlSession.selectOne(statement);
     }
 }

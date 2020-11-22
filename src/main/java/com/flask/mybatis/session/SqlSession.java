@@ -14,6 +14,14 @@ import java.util.List;
 public interface SqlSession {
 
     /**
+     *
+     * @param type
+     * @param <T>
+     * @return
+     */
+    <T> T getMapper(Class<T> type);
+
+    /**
      * 泛型方法，返回一个指定类型
      * @param statement
      * @param <T>

@@ -1,6 +1,7 @@
 package com.flask;
 
 import com.flask.framework.DispatcherServlet;
+import com.flask.mybatis.bean.User;
 import com.flask.mybatis.session.SqlSession;
 import com.flask.mybatis.session.SqlSessionFactory;
 import com.flask.mybatis.session.SqlSessionFactoryBuilder;
@@ -66,9 +67,9 @@ public class BootStraper {
         session.selectOne("com.flask.mybatis.mapper.UserMapper.getUserOne");
         // 读取 mapper 文件
 
-//        UserMapper userMapper = (UserMapper)session.getMapper(UserMapper.class);
-        //
-        // User user = userMapper.getUser();
+        UserMapper userMapper = session.getMapper(UserMapper.class);
+        User u = userMapper.getUserOne();
+        System.out.println(u);
     }
 
     public static void main(String[] args) throws ServletException {

@@ -1,7 +1,7 @@
 package com.flask.service;
 
-import com.flask.framework.*;
-import com.flask.framework.annotation.Autowired;
+import com.flask.framework.BeanNameAware;
+import com.flask.framework.InitializingBean;
 import com.flask.framework.annotation.Component;
 
 /**
