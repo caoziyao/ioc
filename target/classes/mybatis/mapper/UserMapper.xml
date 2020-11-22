@@ -6,7 +6,7 @@
         select * from user where id = #{id}
     </select>
 
-    <select id="getUser2" resultType="com.flask.mybatis.bean.User">
-        select * from user where id = #{id}
+    <select id="getUserOne" resultType="com.flask.mybatis.bean.User">
+        select * from user where id = 1
     </select>
 </mapper>

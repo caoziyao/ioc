@@ -1,5 +1,5 @@
-import com.flask.mybatis.SqlSessionFactory;
-import com.flask.mybatis.SqlSessionFactoryBuilder;
+import com.flask.mybatis.session.SqlSessionFactory;
+import com.flask.mybatis.session.SqlSessionFactoryBuilder;
 
 /**
  * Description:

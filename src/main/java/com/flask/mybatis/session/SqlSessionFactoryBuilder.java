@@ -1,7 +1,10 @@
-package com.flask.mybatis;
+package com.flask.mybatis.session;
+
+import com.flask.mybatis.Configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Description:
@@ -13,6 +16,7 @@ import java.io.InputStream;
 public class SqlSessionFactoryBuilder {
     /**
      * build
+     *
      * @param fileNmae
      * @return
      */
@@ -22,17 +26,24 @@ public class SqlSessionFactoryBuilder {
         return build(inputStream);
     }
 
+    public SqlSessionFactoryBuilder() {
+    }
+
     /**
      * 生成 SqlSessionFactory 工厂
+     *
      * @param inputStream
      * @return
      */
     public SqlSessionFactory build(InputStream inputStream) {
+        Properties properties = new Properties();
         try {
-            Configuration.PROPS.load(inputStream);
+            properties.load(inputStream);
+
+            // Configuration.PROPS.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new SqlSessionFactory(new Configuration());
+        return new SqlSessionFactory(new Configuration(properties));
     }
 }

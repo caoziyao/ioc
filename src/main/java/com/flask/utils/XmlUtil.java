@@ -39,13 +39,16 @@ public class XmlUtil {
 
             for (Iterator iterator = rootElement.elementIterator(); iterator.hasNext(); ) {
                 Element element = (Element) iterator.next();
+                String id = element.attributeValue("id");
+                String sourceId = namespace + "." + id;
+
                 MappedStatement mapped = new MappedStatement();
+                mapped.setSourceId(sourceId);
                 mapped.setNamespace(namespace);
                 mapped.setResultType(element.attributeValue("resultType"));
-                mapped.setSourceId(element.attributeValue("id"));
                 mapped.setSql(element.getTextTrim());
 
-                mappedStatementMap.put(element.attributeValue("id"), mapped);
+                mappedStatementMap.put(sourceId, mapped);
             }
 
         } catch (DocumentException e) {

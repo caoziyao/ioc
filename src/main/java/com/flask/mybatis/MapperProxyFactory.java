@@ -7,5 +7,5 @@ package com.flask.mybatis;
  * @version 1.0.0
  * @since 2020/11/22
  */
-public interface Executor {
+public class MapperProxyFactory {
 }

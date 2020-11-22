@@ -1,10 +1,10 @@
-package com.flask.mybatis;
+package com.flask.mybatis.session;
 
+import com.flask.mybatis.Configuration;
 import com.flask.utils.XmlUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
@@ -82,6 +82,6 @@ public class SqlSessionFactory {
      * @return
      */
     public SqlSession openSession() {
-        return new SqlSession(this.configuration);
+        return new DefaultSqlSession(this.configuration);
     }
 }

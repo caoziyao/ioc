@@ -1,23 +1,17 @@
 package com.flask;
 
 import com.flask.framework.DispatcherServlet;
-import com.flask.mybatis.SqlSession;
-import com.flask.mybatis.SqlSessionFactory;
-import com.flask.mybatis.SqlSessionFactoryBuilder;
-import com.flask.mybatis.bean.User;
+import com.flask.mybatis.session.SqlSession;
+import com.flask.mybatis.session.SqlSessionFactory;
+import com.flask.mybatis.session.SqlSessionFactoryBuilder;
 import com.flask.mybatis.mapper.UserMapper;
-import com.flask.servlet.ProjectChecker;
 import com.flask.servlet.ProjectConfigBean;
-import com.flask.servlet.ProjectLoader;
-import com.flask.tomcat.WebServerStarter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.net.MalformedURLException;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -67,8 +61,12 @@ public class BootStraper {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build("application.properties");
         // 打开 SqlSession
         SqlSession session = sqlSessionFactory.openSession();
+        System.out.println(session);
+
+        session.selectOne("com.flask.mybatis.mapper.UserMapper.getUserOne");
         // 读取 mapper 文件
-        UserMapper userMapper = (UserMapper)session.getMapper(UserMapper.class);
+
+//        UserMapper userMapper = (UserMapper)session.getMapper(UserMapper.class);
         //
         // User user = userMapper.getUser();
     }

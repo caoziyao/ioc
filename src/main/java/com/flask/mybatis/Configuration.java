@@ -1,5 +1,7 @@
 package com.flask.mybatis;
 
+import com.flask.mybatis.session.SqlSession;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -16,7 +18,7 @@ public class Configuration {
     /**
      * 配置项
      */
-    public static Properties PROPS = new Properties();
+    public static Properties PROPS;
 
     private String jdbcDriver;
 
@@ -26,6 +28,17 @@ public class Configuration {
 
     private String jdbcPassword;
 
+    /**
+     * 读取配置信息
+     * @param properties
+     */
+    public Configuration(Properties properties) {
+        Configuration.PROPS = properties;
+        jdbcDriver = properties.getProperty("spring.datasource.driver-class-name");
+        jdbcUrl = properties.getProperty("spring.datasource.url");
+        jdbcUsername = properties.getProperty("spring.datasource.username");
+        jdbcPassword = properties.getProperty("spring.datasource.password");
+    }
 
     /**
      * mapper 代理注册
@@ -37,6 +50,28 @@ public class Configuration {
      * value: sql的封装对象
      */
     protected Map<String, MappedStatement> mappedStatementMap = new HashMap<>();
+
+
+    /**
+     * 获取 Mapper
+     * @param type
+     * @param sqlSession
+     * @param <T>
+     * @return
+     */
+    public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
+        return this.mapperRegistry.getMapper(type, sqlSession);
+    }
+
+    /**
+     * 获取 MappedStatement
+     * @param statement
+     * @return
+     */
+    public MappedStatement getMappedStatement(String statement) {
+        return mappedStatementMap.get(statement);
+    }
+
 
     public Map<String, MappedStatement> getMappedStatementMap() {
         return mappedStatementMap;
