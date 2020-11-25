@@ -10,14 +10,14 @@ package com.flask.mybatis.bean;
 public class User {
     private int id;
     private String username;
-    private String age;
+    private int age;
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", age='" + age + '\'' +
+                ", age=" + age +
                 '}';
     }
 }

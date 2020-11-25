@@ -37,6 +37,6 @@ public class MapperProxy<T> implements InvocationHandler {
             // 返回值是 Collections 子类，例如 List
             return sqlSession.selectList(statement);
         }
-        return sqlSession.selectOne(statement);
+        return sqlSession.selectOne(statement, args);
     }
 }

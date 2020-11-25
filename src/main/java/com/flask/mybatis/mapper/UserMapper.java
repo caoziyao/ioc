@@ -11,4 +11,6 @@ import com.flask.mybatis.bean.User;
  */
 public interface UserMapper {
     User getUserOne();
+
+    User getUser(int id);
 }

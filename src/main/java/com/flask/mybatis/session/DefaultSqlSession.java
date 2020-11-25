@@ -49,7 +49,7 @@ public class DefaultSqlSession implements SqlSession {
     @Override
     public <T> T selectOne(String statement) {
         MappedStatement ms = configuration.getMappedStatement(statement);
-        List<T> selectList = executor.query(ms);
+        List<T> selectList = executor.query(ms, null);
         if (selectList == null || selectList.size() == 0) {
             return null;
         }
@@ -62,7 +62,19 @@ public class DefaultSqlSession implements SqlSession {
 
     @Override
     public <T> T selectOne(String statement, Object parameter) {
-        return null;
+        //if (parameter instanceof List) {
+            MappedStatement ms = configuration.getMappedStatement(statement);
+            List<T> selectList = executor.query(ms, parameter);
+            if (selectList == null || selectList.size() == 0) {
+                return null;
+            }
+            if (selectList.size() == 1) {
+                return (T) selectList.get(0);
+            } else {
+                throw new RuntimeException("Too Many Results");
+            }
+        //}
+        //return null;
     }
 
     @Override

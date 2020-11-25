@@ -64,12 +64,15 @@ public class BootStraper {
         SqlSession session = sqlSessionFactory.openSession();
         System.out.println(session);
 
-        session.selectOne("com.flask.mybatis.mapper.UserMapper.getUserOne");
+        // session.selectOne("com.flask.mybatis.mapper.UserMapper.getUserOne");
         // 读取 mapper 文件
 
         UserMapper userMapper = session.getMapper(UserMapper.class);
-        User u = userMapper.getUserOne();
-        System.out.println(u);
+//        User u = userMapper.getUserOne();
+//        System.out.println(u);
+
+        User u2 = userMapper.getUser(2);
+        System.out.println(u2);
     }
 
     public static void main(String[] args) throws ServletException {

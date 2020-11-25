@@ -2,10 +2,12 @@ package com.flask.mybatis.executor;
 
 import com.flask.mybatis.Configuration;
 import com.flask.mybatis.MappedStatement;
+import com.flask.utils.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,45 +36,91 @@ public class SimpleExecutor implements Executor {
             e.printStackTrace();
         }
     }
+    //
+    //@Override
+    //public <E> List<E> query(MappedStatement ms, Object parameter) {
+    //    String sql = ms.getSql();
+    //    System.out.println("执行：" + sql);
+    //
+    //    Statement stmt = null;
+    //    try {
+    //        stmt = conn.createStatement();
+    //        ResultSet rs = stmt.executeQuery(sql);
+    //        //如果有数据，rs.next()返回true
+    //        while (rs.next()) {
+    //            System.out.println(rs.getString("username") + " 年龄：" + rs.getInt("age"));
+    //        }
+    //    } catch (SQLException throwables) {
+    //        throwables.printStackTrace();
+    //    }
+    //    return null;
+    //}
 
     @Override
     public <E> List<E> query(MappedStatement ms, Object parameter) {
+        List<E> ret = new ArrayList<>();
         String sql = ms.getSql();
         System.out.println("执行：" + sql);
 
-        Statement stmt = null;
         try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            //如果有数据，rs.next()返回true
-            while (rs.next()) {
-                System.out.println(rs.getString("username") + " 年龄：" + rs.getInt("age"));
+            if ("Object[]".equals(parameter.getClass().getSimpleName())) {
+                List<Object> parameterList = Arrays.asList(parameter);
+                //预编译SQL，减少sql执行
+                PreparedStatement ptmt = conn.prepareStatement(sql);
+                //传参
+                for (int i = 0; i < parameterList.size(); i++) {
+                    //ptmt.setString(i + 1, parameterList.get(i)[0]);
+                }
+                //执行
+                ResultSet rs = ptmt.executeQuery();
+                handlerResultSet(rs, ret, ms.getResultType());
+            } else {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                // 将结果集通过反射技术，填充到 list 中。
+                handlerResultSet(rs, ret, ms.getResultType());
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            return ret;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public <E> List<E> query(MappedStatement ms) {
-        List<E> ret = new ArrayList<>();
+    public int update(MappedStatement var1, Object var2) throws SQLException {
+        return 0;
+    }
 
-        String sql = ms.getSql();
-        System.out.println("执行2：" + sql);
+    @Override
+    public void commit(boolean var1) throws SQLException {
 
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+    }
 
-            // 将结果集通过反射技术，填充到 list 中。
-            handlerResultSet(rs, ret, ms.getResultType());
-            return ret;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
+    @Override
+    public void rollback(boolean var1) throws SQLException {
+
+    }
+
+    @Override
+    public void clearLocalCache() {
+
+    }
+
+    @Override
+    public void close(boolean var1) {
+
+    }
+
+    @Override
+    public boolean isClosed() {
+        return false;
+    }
+
+    @Override
+    public void setExecutorWrapper(Executor var1) {
+
     }
 
     /**
@@ -90,12 +138,7 @@ public class SimpleExecutor implements Executor {
                 for (Field field : clazz.getDeclaredFields()) {
                     field.setAccessible(true);
                     String name = field.getName();
-                    // 判断类型
-                    if (int.class == field.getType()) {
-                        field.set(o, resultSet.getInt(name));
-                    } else {
-                        field.set(o, resultSet.getString(name));
-                    }
+                    ReflectUtils.setFieldValue(o, field, resultSet);
                 }
                 ret.add((E) o);
             }
