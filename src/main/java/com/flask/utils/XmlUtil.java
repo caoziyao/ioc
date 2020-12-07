@@ -8,6 +8,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -22,6 +23,7 @@ public class XmlUtil {
     public static void readMapperXml (String pathName, Configuration configuration) {
         //获取Document对象
         SAXReader reader = new SAXReader();
+        //Base64Tool
         try {
             // 读取文件内容
             Document document = reader.read(new File(pathName));

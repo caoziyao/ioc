@@ -17,10 +17,38 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+
+
         </plugins>
     </build>
 
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Repository</name>
+            <url>http://49.234.12.16:8081/repository/maven-public/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <name>Nexus Plugin Repository</name>
+            <url>http://49.234.12.16:8081/repository/maven-public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+
     <dependencies>
+        <!--http://49.234.12.16:8081/repository/csytool-release/-->
+        <dependency>
+            <groupId>org.zel</groupId>
+            <artifactId>csytool</artifactId>
+<!--            <scope>compile</scope>-->
+            <version>1.2</version>
+        </dependency>
+
+
         <!-- 解析 xml -->
         <dependency>
             <groupId>dom4j</groupId>
@@ -34,11 +62,11 @@
             <version>3.3.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
-<!--        <dependency>-->
-<!--            <groupId>org.aspectj</groupId>-->
-<!--            <artifactId>aspectjrt</artifactId>-->
-<!--            <version>1.9.6</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.aspectj</groupId>-->
+        <!--            <artifactId>aspectjrt</artifactId>-->
+        <!--            <version>1.9.6</version>-->
+        <!--        </dependency>-->
         <!--mysql jdbc-->
         <dependency>
             <groupId>mysql</groupId>
